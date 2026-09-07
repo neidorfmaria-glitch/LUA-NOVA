@@ -1,0 +1,34 @@
+import math
+
+# Gravitational constant
+G = 6.67430e-11
+
+# Mass of the central body (kg)
+M = 5.972e24
+
+# Initial position (m)
+x = 7.0e6
+y = 0.0
+
+# Initial velocity (m/s)
+vx = 0.0
+vy = 7.5e3
+
+# Distance from the central body
+r = math.sqrt(x**2 + y**2)
+
+# Gravitational acceleration
+ax = -G * M * x / r**3
+ay = -G * M * y / r**3
+
+print("Position:")
+print("x =", x)
+print("y =", y)
+
+print("\nVelocity:")
+print("vx =", vx)
+print("vy =", vy)
+
+print("\nAcceleration:")
+print("ax =", ax)
+print("ay =", ay)
