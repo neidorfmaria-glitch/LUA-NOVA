@@ -92,4 +92,3 @@ LUA NOVA is an independent research project developed to explore computational a
 
 This repository documents the development process, experiments, results, and ongoing research.
 
-**Status: 🚧 Active development**
