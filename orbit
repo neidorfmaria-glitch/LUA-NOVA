@@ -14,6 +14,9 @@ y = 0.0
 vx = 0.0
 vy = 7.5e3
 
+# Time step (s)
+dt = 1.0
+
 # Distance from the central body
 r = math.sqrt(x**2 + y**2)
 
@@ -21,14 +24,19 @@ r = math.sqrt(x**2 + y**2)
 ax = -G * M * x / r**3
 ay = -G * M * y / r**3
 
-print("Position:")
-print("x =", x)
-print("y =", y)
+# Euler method: update velocity
+new_vx = vx + ax * dt
+new_vy = vy + ay * dt
 
-print("\nVelocity:")
-print("vx =", vx)
-print("vy =", vy)
+# Euler method: update position
+new_x = x + new_vx * dt
+new_y = y + new_vy * dt
 
-print("\nAcceleration:")
-print("ax =", ax)
-print("ay =", ay)
+# Display results
+print("New position:")
+print("x =", new_x)
+print("y =", new_y)
+
+print("\nNew velocity:")
+print("vx =", new_vx)
+print("vy =", new_vy)
