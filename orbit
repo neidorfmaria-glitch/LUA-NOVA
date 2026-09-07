@@ -40,3 +40,33 @@ print("y =", new_y)
 print("\nNew velocity:")
 print("vx =", new_vx)
 print("vy =", new_vy)
+for i in range(100):
+
+    # calcula a distância
+    r = math.sqrt(x**2 + y**2)
+
+    # calcula a aceleração
+    ax = -G * M * x / r**3
+    ay = -G * M * y / r**3
+
+    # atualiza a velocidade
+    new_vx = vx + ax * dt
+    new_vy = vy + ay * dt
+
+    # atualiza a posição
+    new_x = x + new_vx * dt
+    new_y = y + new_vy * dt
+
+    # substitui os valores antigos pelos novos
+    x = new_x
+    y = new_y
+    vx = new_vx
+    vy = new_vy
+
+    print("Final position:")
+print("x =", x)
+print("y =", y)
+
+print("\nFinal velocity:")
+print("vx =", vx)
+print("vy =", vy)
