@@ -6,64 +6,132 @@ G = 6.67430e-11
 # Mass of the central body (kg)
 M = 5.972e24
 
-# Initial position (m)
-x = 7.0e6
-y = 0.0
 
-# Initial velocity (m/s)
-vx = 0.0
-vy = 7.5e3
-
-# Time step (s)
-dt = 1.0
-
-# Distance from the central body
-r = math.sqrt(x**2 + y**2)
-
-# Gravitational acceleration
-ax = -G * M * x / r**3
-ay = -G * M * y / r**3
-
-# Euler method: update velocity
-new_vx = vx + ax * dt
-new_vy = vy + ay * dt
-
-# Euler method: update position
-new_x = x + new_vx * dt
-new_y = y + new_vy * dt
-
-# Display results
-print("New position:")
-print("x =", new_x)
-print("y =", new_y)
-
-print("\nNew velocity:")
-print("vx =", new_vx)
-print("vy =", new_vy)
-for i in range(100):
-
-    # calcula a distância
+def acceleration(x, y):
     r = math.sqrt(x**2 + y**2)
 
-    # calcula a aceleração
     ax = -G * M * x / r**3
     ay = -G * M * y / r**3
 
-    # atualiza a velocidade
-    new_vx = vx + ax * dt
-    new_vy = vy + ay * dt
+    return ax, ay
 
-    # atualiza a posição
-    new_x = x + new_vx * dt
-    new_y = y + new_vy * dt
 
-    # substitui os valores antigos pelos novos
-    x = new_x
-    y = new_y
-    vx = new_vx
-    vy = new_vy
+def euler(x, y, vx, vy, dt, steps):
 
-    print("Final position:")
+    for i in range(steps):
+
+        # Calculate gravitational acceleration
+        ax, ay = acceleration(x, y)
+
+        # Update velocity
+        vx = vx + ax * dt
+        vy = vy + ay * dt
+
+        # Update position
+        x = x + vx * dt
+        y = y + vy * dt
+
+    return x, y, vx, vy
+
+
+# Initial conditions
+x = 7.0e6
+y = 0.0
+
+vx = 0.0
+vy = 7.5e3
+
+dt = 0.001
+steps = 100000
+
+
+# Run simulation
+x, y, vx, vy = euler(x, y, vx, vy, dt, steps)
+
+
+# Display results
+print("Final position:")
+print("x =", x)
+print("y =", y)
+
+print("\nFinal velocity:")
+print("vx =", vx)
+print("vy =", vy)
+
+def rk4(x, y, vx, vy, dt, steps):
+
+    for i in range(steps):
+
+        # k1
+        ax1, ay1 = acceleration(x, y)
+        k1_x = vx
+        k1_y = vy
+        k1_vx = ax1
+        k1_vy = ay1
+
+        # k2
+        ax2, ay2 = acceleration(
+            x + k1_x * dt / 2,
+            y + k1_y * dt / 2
+        )
+
+        k2_x = vx + k1_vx * dt / 2
+        k2_y = vy + k1_vy * dt / 2
+        k2_vx = ax2
+        k2_vy = ay2
+
+        # k3
+        ax3, ay3 = acceleration(
+            x + k2_x * dt / 2,
+            y + k2_y * dt / 2
+        )
+
+        k3_x = vx + k2_vx * dt / 2
+        k3_y = vy + k2_vy * dt / 2
+        k3_vx = ax3
+        k3_vy = ay3
+
+        # k4
+        ax4, ay4 = acceleration(
+            x + k3_x * dt,
+            y + k3_y * dt
+        )
+
+        k4_x = vx + k3_vx * dt
+        k4_y = vy + k3_vy * dt
+        k4_vx = ax4
+        k4_vy = ay4
+
+        # Combine the four estimates
+        x = x + (dt / 6) * (
+            k1_x + 2*k2_x + 2*k3_x + k4_x
+        )
+
+        y = y + (dt / 6) * (
+            k1_y + 2*k2_y + 2*k3_y + k4_y
+        )
+
+        vx = vx + (dt / 6) * (
+            k1_vx + 2*k2_vx + 2*k3_vx + k4_vx
+        )
+
+        vy = vy + (dt / 6) * (
+            k1_vy + 2*k2_vy + 2*k3_vy + k4_vy
+        )
+
+    return x, y, vx, vy
+
+x = 7.0e6
+y = 0.0
+vx = 0.0
+vy = 7.5e3
+
+dt = 0.001
+steps = 100000
+
+x, y, vx, vy = rk4(x, y, vx, vy, dt, steps)
+
+print("Final position:")
 print("x =", x)
 print("y =", y)
 
